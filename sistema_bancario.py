@@ -1,9 +1,9 @@
 from idlelib.mainmenu import menudefs
-
+import datetime
 saldo = float(0.00)
 extrato = ""
 saques_do_dia = 0
-limite_de_saque = 3
+limite_de_saque = 10
 menu = """
 (1)Depositar
 (2)Sacar
@@ -14,22 +14,24 @@ menu = """
 def depositar(valor):
     global saldo, extrato
     if valor > 0:
+        data = datetime.datetime.now()
         saldo += valor
-        extrato += f"Deposito: R$ {valor:.2f} \n"
+        extrato += f"Deposito: R$ {valor:.2f} data: {data} \n"
         print("Valor depositado com sucesso")
     else:
         print("Valor para deposito invalido")
 
 def sacar(valor):
-    global saldo, extrato, saques_do_dia, limite_de_saque
+    global saldo, extrato, saques_do_dia, limite_de_saque, data
     if valor <= 0:
         print("Valor invalido para o saque")
         return
 
     if saques_do_dia < limite_de_saque:
         if valor <= saldo and valor <=500.00:
+            data2 = datetime.datetime.now()
             saldo -= valor
-            extrato += f"Saque R${valor:.2f}\n"
+            extrato += f"Saque R${valor:.2f} data: {data2} \n"
             saques_do_dia += 1
             print("Saque realizado com sucesso")
         else:
@@ -43,8 +45,8 @@ while True:
         depositar_user =(input("Digite o valor para depositar: "))
         depositar(float(depositar_user))
     elif opcao == "2":
-        depositar_user =(input("Digite o valor para depositar: "))
-        sacar(float(depositar_user))
+        sacar_user =(input("Digite o valor para sacar :  "))
+        sacar(float(sacar_user))
     elif opcao == "3":
         print(extrato)
     elif opcao == "4":
